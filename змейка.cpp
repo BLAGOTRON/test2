@@ -1,29 +1,22 @@
 #include <iostream>
 #include <conio.h>
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 
 bool gameover;
 const int dlinn = 30;
 const int visota = 30;
-int x, y, fX, fY, score, endt;
+int x, y, fX, fY, score, endtail;
 int tx[100], ty[100];
-enum edirection { stop = 0, lef, rig, up, down };
-edirection dir;
+enum direct { 
+	stop = 0,
+	lef, 
+	rig, 
+	up,
+	down 
+};
+direct dir;
  
-void setup() {
-	gameover = false;
-	dir = stop;
-	x = dlinn / 2 - 1;
-	y = visota / 2 - 1;
-	fX = rand() % (dlinn);
-	fY = rand() % (visota);
-	score = 0;
-	
-}
-
 void draw() {
 	system("cls");
 	for (int i = 0; i < dlinn+1; i++)
@@ -41,7 +34,7 @@ void draw() {
 				cout << "F";
 			else {
 				bool print = false;
-				for (int k = 0; k < endt; k++) {
+				for (int k = 0; k < endtail; k++) {
 					if (tx[k] == j && ty[k] == i) {
 						print = true;
 						cout << "o";
@@ -96,7 +89,7 @@ void Logic() {
 	int prev2x, prev2y;
 	tx[0] = x;
 	ty[0] = y;
-	for (int i = 1; i < endt; i++) {
+	for (int i = 1; i < endtail; i++) {
 		prev2x = tx[i];
 		prev2y = ty[i];
 		tx[i] = prevx;
@@ -122,14 +115,13 @@ void Logic() {
      }
 	if (x >= dlinn || x < 0 || y >= visota || y < 0)
 		gameover = true;
-	for (int i = 0; i < endt; i++) {
+	for (int i = 0; i < endtail; i++) {
 		if (tx[i] == x && ty[i] == y)
 			gameover = true;
 	}
 	if (x == fX && y == fY) {
 		score++;
-		endt++;
-		srand(time(NULL));
+		endtail++;
 		fX = rand() % dlinn;
 		fY = rand() % visota;
 
@@ -142,7 +134,13 @@ void Logic() {
  
 
 int main() {
-	setup();
+	gameover = false;
+	dir = stop;
+	x = dlinn / 2 - 1;
+	y = visota / 2 - 1;
+	fX = rand() % (dlinn);
+	fY = rand() % (visota);
+	score = 0;
 	while (!gameover) {
 		draw();
 		Input();
